@@ -28,6 +28,11 @@ public class StudentController {
         return ResponseEntity.ok(studentService.findById(id));
     }
 
+    @GetMapping(path = "/find")
+    public ResponseEntity<List<Student>> findByName(@RequestParam(value = "name") String name) {
+        return ResponseEntity.ok(studentService.findByName(name));
+    }
+
     @PostMapping
     public ResponseEntity<Student> save(@RequestBody Student student) {
         return ResponseEntity.ok(studentService.save(student));

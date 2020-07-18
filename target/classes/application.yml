@@ -4,7 +4,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/student?useSSL=false
+    url: jdbc:mysql://localhost:3306/student
     username: root
     password: root
   jpa:
