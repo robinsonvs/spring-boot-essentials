@@ -44,4 +44,10 @@ public class StudentController {
     public ResponseEntity<Student> save(@RequestBody Student student) {
         return ResponseEntity.ok(studentRepository.save(student));
     }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable int id) {
+        studentRepository.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
