@@ -1,0 +1,38 @@
+package com.severo.demospring.service;
+
+
+import com.severo.demospring.domain.Student;
+import com.severo.demospring.repository.StudentRepository;
+import com.severo.demospring.util.Utils;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+@RequiredArgsConstructor
+public class StudentService {
+
+    private final Utils utils;
+    private final StudentRepository studentRepository;
+
+    public List<Student> listAll() {
+        return studentRepository.findAll();
+    }
+
+    public Student findById(int id) {
+        return utils.findStudentOrThrowNotFound(id, studentRepository);
+    }
+
+    public Student save(Student student) {
+        return studentRepository.save(student);
+    }
+
+    public void delete(int id) {
+        studentRepository.delete(utils.findStudentOrThrowNotFound(id, studentRepository));
+    }
+
+    public void update(Student student) {
+        studentRepository.save(student);
+    }
+}

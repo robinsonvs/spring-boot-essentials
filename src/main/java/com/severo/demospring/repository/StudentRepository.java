@@ -1,51 +1,11 @@
 package com.severo.demospring.repository;
 
-
 import com.severo.demospring.domain.Student;
-import com.severo.demospring.util.Utils;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Repository;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
-@Repository
-@RequiredArgsConstructor
-public class StudentRepository {
+public interface StudentRepository extends JpaRepository<Student, Integer> {
 
-    private final Utils utils;
-    private static List<Student> students;
-
-    static {
-        students = new ArrayList<>(List.of(
-                new Student(1, "Joao"),
-                new Student(2, "Maria"),
-                new Student(3, "Pedro")));
-    }
-
-    public List<Student> listAll() {
-        return students;
-    }
-
-    public Student findById(int id) {
-        return utils.findStudentOrThrowNotFound(id, students);
-    }
-
-    public Student save(Student student) {
-        student.setId(ThreadLocalRandom.current().nextInt(4, 100000));
-        students.add(student);
-        return student;
-    }
-
-    public void delete(int id) {
-        students.remove(utils.findStudentOrThrowNotFound(id, students));
-    }
-
-    public void update(Student student) {
-        students.remove(utils.findStudentOrThrowNotFound(student.getId(), students));
-        students.add(student);
-    }
+    List<Student> findByName(String name);
 }
