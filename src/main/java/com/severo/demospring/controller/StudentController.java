@@ -36,7 +36,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<Student> save(@RequestBody @Valid Student student) {
+    public ResponseEntity<Student> save(@Valid @RequestBody Student student) {
         return ResponseEntity.ok(studentService.save(student));
     }
 
