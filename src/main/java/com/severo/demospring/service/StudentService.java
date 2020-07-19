@@ -6,6 +6,7 @@ import com.severo.demospring.repository.StudentRepository;
 import com.severo.demospring.util.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class StudentService {
         return utils.findStudentOrThrowNotFound(id, studentRepository);
     }
 
+    @Transactional
     public Student save(Student student) {
         return studentRepository.save(student);
     }
