@@ -4,6 +4,8 @@ import com.severo.demospring.domain.Student;
 import com.severo.demospring.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,8 +23,8 @@ public class StudentController {
     private final StudentService studentService;
 
     @GetMapping
-    public ResponseEntity<List<Student>> listAll() {
-        return ResponseEntity.ok(studentService.listAll());
+    public ResponseEntity<Page<Student>> listAll(Pageable pageable) {
+        return ResponseEntity.ok(studentService.listAll(pageable));
     }
 
     @GetMapping(path = "/{id}")
