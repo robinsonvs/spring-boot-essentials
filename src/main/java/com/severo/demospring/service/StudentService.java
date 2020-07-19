@@ -20,8 +20,8 @@ public class StudentService {
     private final Utils utils;
     private final StudentRepository studentRepository;
 
-    public Page<Student> listAll(Pageable pageable) {
-        return studentRepository.findAll(pageable);
+    public List<Student> listAll() {
+        return studentRepository.findAll();
     }
 
     public List<Student> findByName(String name) {

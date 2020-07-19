@@ -2,8 +2,13 @@ package com.severo.demospring.client;
 
 import com.severo.demospring.domain.Student;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 public class ClientSpring {
@@ -21,5 +26,18 @@ public class ClientSpring {
                 .getForObject("http://localhost:8080/students/{id}", Student.class, 1);
 
         log.info("Student {}", student);
+
+        Student[] studentArray = new RestTemplate()
+                .getForObject("http://localhost:8080/students", Student[].class);
+
+        log.info("Student array {}", Arrays.toString(studentArray));
+
+        //@formatter:off
+        ResponseEntity<List<Student>> exchangeStudentList = new RestTemplate()
+                .exchange("http://localhost:8080/students", HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+                });
+        //@formatter:on
+
+        log.info("Student list {}", exchangeStudentList.getBody());
     }
 }

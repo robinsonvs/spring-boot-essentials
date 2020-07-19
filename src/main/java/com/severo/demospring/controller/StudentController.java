@@ -23,9 +23,14 @@ public class StudentController {
     private final StudentService studentService;
 
     @GetMapping
-    public ResponseEntity<Page<Student>> listAll(Pageable pageable) {
-        return ResponseEntity.ok(studentService.listAll(pageable));
+    public ResponseEntity<List<Student>> listAll(Pageable pageable) {
+        return ResponseEntity.ok(studentService.listAll());
     }
+
+//    @GetMapping
+//    public ResponseEntity<Page<Student>> listAll(Pageable pageable) {
+//        return ResponseEntity.ok(studentService.listAll(pageable));
+//    }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Student> findById(@PathVariable int id) {
