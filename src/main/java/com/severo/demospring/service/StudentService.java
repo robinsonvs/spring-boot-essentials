@@ -7,7 +7,6 @@ import com.severo.demospring.util.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +19,8 @@ public class StudentService {
     private final Utils utils;
     private final StudentRepository studentRepository;
 
-    public List<Student> listAll() {
-        return studentRepository.findAll();
+    public Page<Student> listAll(Pageable pageable) {
+        return studentRepository.findAll(pageable);
     }
 
     public List<Student> findByName(String name) {
