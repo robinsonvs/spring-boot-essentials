@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,6 +35,20 @@ public class ClientSpring {
                 .exchange("http://localhost:8080/students", HttpMethod.POST, new HttpEntity<>(newStudentExchange, createJsonHeader()), Student.class)
                 .getBody();
         log.info("New Student Exchange Saved id:d {}", newStudentExchangeSaved.getId());
+
+
+        newStudentExchangeSaved.setName("Student updated");
+        ResponseEntity<Void> updatedExchangeStudent = new RestTemplate()
+                .exchange("http://localhost:8080/students", HttpMethod.PUT,
+                        new HttpEntity<>(newStudentExchangeSaved, createJsonHeader()), Void.class);
+        log.info("New Student Exchange Updated status {}", updatedExchangeStudent.getStatusCode());
+
+
+        newStudentExchangeSaved.setName("Student deleted");
+        ResponseEntity<Void> deletedExchangeStudent = new RestTemplate()
+                .exchange("http://localhost:8080/students/{id}", HttpMethod.DELETE,
+                        null, Void.class, newStudentExchangeSaved.getId());
+        log.info("New Student Exchange Deleted status {}", deletedExchangeStudent.getStatusCode());
     }
 
     private static void testGetWithRestTemplate() {
