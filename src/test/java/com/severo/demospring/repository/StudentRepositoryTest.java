@@ -1,6 +1,7 @@
 package com.severo.demospring.repository;
 
 import com.severo.demospring.domain.Student;
+import com.severo.demospring.util.StudentCreator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ class StudentRepositoryTest {
     @Test
     @DisplayName("Save creates student when successful")
     public void savePersistStudentWhenSuccessful() {
-        Student student = createStudent();
+        Student student = StudentCreator.createStudentToBeSaved();
 
         Student savedStudent = this.studentRepository.save(student);
         Assertions.assertThat(savedStudent.getId()).isNotNull();
@@ -33,7 +34,7 @@ class StudentRepositoryTest {
     @Test
     @DisplayName("Save updates student when successful")
     public void saveUpdateStudentWhenSuccessful() {
-        Student student = createStudent();
+        Student student = StudentCreator.createStudentToBeSaved();
 
         Student savedStudent = this.studentRepository.save(student);
 
@@ -50,7 +51,7 @@ class StudentRepositoryTest {
     @Test
     @DisplayName("Delete removes student when successful")
     public void deleteRemoveStudentWhenSuccessful() {
-        Student student = createStudent();
+        Student student = StudentCreator.createStudentToBeSaved();
 
         Student savedStudent = this.studentRepository.save(student);
 
@@ -65,7 +66,7 @@ class StudentRepositoryTest {
     @Test
     @DisplayName("Find by name returns student when successful")
     public void findByNameReturnStudentWhenSuccessful() {
-        Student student = createStudent();
+        Student student = StudentCreator.createStudentToBeSaved();
 
         Student savedStudent = this.studentRepository.save(student);
 
@@ -100,14 +101,5 @@ class StudentRepositoryTest {
         Assertions.assertThatExceptionOfType(ConstraintViolationException.class)
                 .isThrownBy(() -> studentRepository.save(student))
                 .withMessageContaining("The name is required");
-    }
-
-
-
-
-    private Student createStudent() {
-        return Student.builder()
-                .name("User Test One")
-                .build();
     }
 }
