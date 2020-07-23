@@ -1,54 +1,62 @@
-package com.severo.demospring.controller;
+package com.severo.demospring.integration;
 
 import com.severo.demospring.domain.Student;
-import com.severo.demospring.service.StudentService;
+import com.severo.demospring.repository.StudentRepository;
 import com.severo.demospring.util.StudentCreator;
+import com.severo.demospring.util.wrapper.PageableResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.when;
 import static org.mockito.Mockito.doNothing;
 
-@ExtendWith(SpringExtension.class)
-class StudentControllerTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class StudentControllerIT {
 
-    @InjectMocks
-    private StudentController studentController;
+    @Autowired
+    private TestRestTemplate testRestTemplate;
 
-    @Mock
-    private StudentService studentServiceMock;
+    @LocalServerPort
+    private int port;
+
+    @MockBean
+    private StudentRepository studentRepositoryMock;
+
 
     @BeforeEach
     public void setup() {
         PageImpl<Student> studentPage = new PageImpl<>(List.of(StudentCreator.createValidStudent()));
-        when(studentServiceMock.listAll(any()))
+        when(studentRepositoryMock.findAll(any(PageRequest.class)))
                 .thenReturn(studentPage);
 
-        when(studentServiceMock.findById(anyInt()))
-                .thenReturn(StudentCreator.createValidStudent());
+        when(studentRepositoryMock.findById(anyInt()))
+                .thenReturn(Optional.of(StudentCreator.createValidStudent()));
 
-        when(studentServiceMock.findByName(anyString()))
+        when(studentRepositoryMock.findByName(anyString()))
                 .thenReturn(List.of(StudentCreator.createValidStudent()));
 
-        when(studentServiceMock.save(StudentCreator.createStudentToBeSaved()))
+        when(studentRepositoryMock.save(StudentCreator.createStudentToBeSaved()))
                 .thenReturn(StudentCreator.createValidStudent());
 
-        doNothing().when(studentServiceMock).delete(anyInt());
+        doNothing().when(studentRepositoryMock).delete(any(Student.class));
 
-        when(studentServiceMock.save(StudentCreator.createValidStudent()))
+        when(studentRepositoryMock.save(StudentCreator.createValidStudent()))
                 .thenReturn(StudentCreator.createValidUpdatedStudent());
     }
 
@@ -57,7 +65,10 @@ class StudentControllerTest {
     public void listAllReturnListOfStudentsInsidePageObjectWhenOK() {
         String expectedName = StudentCreator.createValidStudent().getName();
 
-        Page<Student> studentPage = studentController.listAll(null).getBody();
+        //@formatter:off
+        Page<Student> studentPage = testRestTemplate.exchange("/students", HttpMethod.GET,
+                null, new ParameterizedTypeReference<PageableResponse<Student>>() {}).getBody();
+        //@formatter:on
 
         assertThat(studentPage).isNotNull();
         assertThat(studentPage.toList()).isNotEmpty();
@@ -70,7 +81,7 @@ class StudentControllerTest {
     public void findByIdReturnListOfStudentsInsidePageObjectWhenOK() {
         Integer expectedById = StudentCreator.createValidStudent().getId();
 
-        Student student = studentController.findById(1).getBody();
+        Student student = testRestTemplate.getForObject("/students/1", Student.class);
 
         assertThat(student).isNotNull();
         assertThat(student.getId()).isNotNull();
@@ -80,10 +91,14 @@ class StudentControllerTest {
 
     @Test
     @DisplayName("findByName returns a list of students when ok")
-    public void findByNameReturnListOfStudentsWhenOK() {
+    public void findByNameReturnListOfStudentsInsidePageObjectWhenOK() {
         String expectedName = StudentCreator.createValidStudent().getName();
 
-        List<Student> studentList = studentController.findByName("ABC").getBody();
+        //@formatter:off
+        List<Student> studentList = testRestTemplate.exchange("/students/find?name='ABC'",
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Student>>() {
+                }).getBody();
+        //@formatter:on
 
         assertThat(studentList).isNotNull();
         assertThat(studentList).isNotEmpty();
@@ -97,7 +112,8 @@ class StudentControllerTest {
         Integer expectedById = StudentCreator.createValidStudent().getId();
 
         Student studentToBeSaved = StudentCreator.createStudentToBeSaved();
-        Student student = studentController.save(studentToBeSaved).getBody();
+        Student student = testRestTemplate.exchange("/students", HttpMethod.POST,
+                createJsonHttpEntity(studentToBeSaved), Student.class).getBody();
 
         assertThat(student).isNotNull();
         assertThat(student.getId()).isNotNull();
@@ -107,7 +123,8 @@ class StudentControllerTest {
     @Test
     @DisplayName("delete removes the student when ok")
     public void deleteRemovesAnStudentWhenOK() {
-        ResponseEntity<Void> responseEntity = studentController.delete(1);
+        ResponseEntity<Void> responseEntity = testRestTemplate.exchange("/students/1", HttpMethod.DELETE,
+                null, Void.class);
 
         assertThat(responseEntity).isNotNull();
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
@@ -118,10 +135,25 @@ class StudentControllerTest {
     @Test
     @DisplayName("update save updated student when ok")
     public void updateSaveUpdatedStudentWhenOK() {
-        ResponseEntity<Void> responseEntity = studentController.update(StudentCreator.createValidStudent());
+        Student validStudent = StudentCreator.createValidStudent();
+
+        ResponseEntity<Void> responseEntity = testRestTemplate.exchange("/students", HttpMethod.PUT,
+                createJsonHttpEntity(validStudent), Void.class);
 
         assertThat(responseEntity).isNotNull();
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
         assertThat(responseEntity.getBody()).isNull();
+    }
+
+
+    private HttpEntity<Student> createJsonHttpEntity(Student student) {
+        return new HttpEntity<>(student, createJsonHeader());
+    }
+
+
+    private static HttpHeaders createJsonHeader() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        return httpHeaders;
     }
 }
