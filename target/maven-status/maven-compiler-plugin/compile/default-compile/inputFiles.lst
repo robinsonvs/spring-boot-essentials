@@ -1,5 +1,14 @@
+/home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/main/java/com/severo/demospring/exception/ResourceNotFoundException.java
+/home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/main/java/com/severo/demospring/util/wrapper/PageableResponse.java
 /home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/main/java/com/severo/demospring/controller/StudentController.java
-/home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/main/java/com/severo/demospring/DemospringApplication.java
+/home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/main/java/com/severo/demospring/exception/ResourceNotFoundDetails.java
+/home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/main/java/com/severo/demospring/client/ClientSpring.java
+/home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/main/java/com/severo/demospring/exception/ValidationExceptionDetails.java
+/home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/main/java/com/severo/demospring/util/Utils.java
 /home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/main/java/com/severo/demospring/domain/Student.java
 /home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/main/java/com/severo/demospring/repository/StudentRepository.java
-/home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/main/java/com/severo/demospring/util/DateUtil.java
+/home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/main/java/com/severo/demospring/exception/ExceptionDetails.java
+/home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/main/java/com/severo/demospring/handler/RestExceptionHandler.java
+/home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/main/java/com/severo/demospring/service/StudentService.java
+/home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/main/java/com/severo/demospring/DemospringApplication.java
+/home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/main/java/com/severo/demospring/configurer/DemoSpringWebMvcConfigurer.java

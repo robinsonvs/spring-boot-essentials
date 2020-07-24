@@ -1,5 +1,4 @@
 com/severo/demospring/repository/StudentRepository.class
-com/severo/demospring/domain/Student.class
 com/severo/demospring/DemospringApplication.class
-com/severo/demospring/util/DateUtil.class
 com/severo/demospring/controller/StudentController.class
+com/severo/demospring/domain/Student.class

@@ -1,1 +1,6 @@
+/home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/test/java/com/severo/demospring/repository/StudentRepositoryTest.java
+/home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/test/java/com/severo/demospring/util/StudentCreator.java
+/home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/test/java/com/severo/demospring/service/StudentServiceTest.java
+/home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/test/java/com/severo/demospring/integration/StudentControllerIT.java
 /home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/test/java/com/severo/demospring/DemospringApplicationTests.java
+/home/robinsonvs/myArqs/Projects/DevDojo/spring-boot-essentials/src/test/java/com/severo/demospring/controller/StudentControllerTest.java
