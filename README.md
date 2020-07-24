@@ -39,3 +39,4 @@ https://www.youtube.com/watch?v=4Zjm-rD9FNc&list=PL0Un1HNdB4jHTXBeJ8u3Kaz0NMxuMk
 - [29: Tests pt 03 - Unit Test Service]
 - [30: Tests pt 04 - Integration Tests with TestRestTemplate]   
 - [31: Tests pt 05 - Maven Profile for Integration Tests]
+- [32: Spring Security pt 01 - In Memory Authentication]
