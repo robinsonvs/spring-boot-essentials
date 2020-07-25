@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,6 +34,12 @@ public class StudentController {
     public ResponseEntity<Student> findById(@PathVariable int id) {
         return ResponseEntity.ok(studentService.findById(id));
     }
+    
+//    @GetMapping(path = "/{id}")
+//    public ResponseEntity<Student> findById(@PathVariable int id, @AuthenticationPrincipal UserDetails userDetails) {
+//        log.info("user logged in {}", userDetails);
+//        return ResponseEntity.ok(studentService.findById(id));
+//    }
 
     @GetMapping(path = "/find")
     public ResponseEntity<List<Student>> findByName(@RequestParam(value = "name") String name) {

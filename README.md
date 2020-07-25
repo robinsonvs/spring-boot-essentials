@@ -41,3 +41,4 @@ https://www.youtube.com/watch?v=4Zjm-rD9FNc&list=PL0Un1HNdB4jHTXBeJ8u3Kaz0NMxuMk
 - [31: Tests pt 05 - Maven Profile for Integration Tests]
 - [32: Spring Security pt 01 - In Memory Authentication]
 - [33: Spring Security pt 02 - CSRF and @PreAuthorize]
+- [34: Spring Security pt 03 - @AuthenticationPrincipal Default login]
