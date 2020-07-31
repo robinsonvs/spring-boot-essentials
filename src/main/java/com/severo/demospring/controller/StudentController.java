@@ -2,15 +2,16 @@ package com.severo.demospring.controller;
 
 import com.severo.demospring.domain.Student;
 import com.severo.demospring.service.StudentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,6 +27,9 @@ public class StudentController {
 
 
     @GetMapping
+    @Operation(summary = "List all paginated and sorted",
+    description = "To use pagination and sort add the params ?page='number'&sort='field' to the url",
+    tags = {"student"})
     public ResponseEntity<Page<Student>> listAll(Pageable pageable) {
         return ResponseEntity.ok(studentService.listAll(pageable));
     }
@@ -52,6 +56,10 @@ public class StudentController {
     }
 
     @DeleteMapping(path = "/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Successful operation"),
+            @ApiResponse(responseCode = "404", description = "Not found")
+    })
     public ResponseEntity<Void> delete(@PathVariable int id) {
         studentService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

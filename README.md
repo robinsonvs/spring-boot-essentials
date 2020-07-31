@@ -45,3 +45,4 @@ https://www.youtube.com/watch?v=4Zjm-rD9FNc&list=PL0Un1HNdB4jHTXBeJ8u3Kaz0NMxuMk
 - [35: Spring Security pt 04 - Auth and Authorization with Spring Data]
 - [36: Spring Security pt 05 - Antmatchers]
 - [37: Spring Security pt 06 - Adding Basic Authorization Integration]
+- [38: Docimentation with SpringDoc OpenAPI]

@@ -1,5 +1,6 @@
 package com.severo.demospring.domain;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class Student {
 
     @NotNull
     @NotEmpty(message = "The name is required")
+    @Schema(description = "Student's name", example = "Name Bla Bla Bla", required = true)
     private String name;
 
 }
