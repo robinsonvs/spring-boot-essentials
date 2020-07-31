@@ -31,7 +31,6 @@ public class StudentController {
     }
 
     @GetMapping(path = "/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Student> findById(@PathVariable int id) {
         return ResponseEntity.ok(studentService.findById(id));
     }
@@ -53,7 +52,6 @@ public class StudentController {
     }
 
     @DeleteMapping(path = "/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         studentService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
