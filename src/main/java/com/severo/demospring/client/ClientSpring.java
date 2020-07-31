@@ -5,6 +5,7 @@ import com.severo.demospring.util.wrapper.PageableResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public class ClientSpring {
 
     public static void main(String[] args) {
+        System.out.println(new BCryptPasswordEncoder().encode("demospring"));
 
         //testGetWithRestTemplate();
 

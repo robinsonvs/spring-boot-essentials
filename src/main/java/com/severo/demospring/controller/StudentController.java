@@ -31,10 +31,11 @@ public class StudentController {
     }
 
     @GetMapping(path = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Student> findById(@PathVariable int id) {
         return ResponseEntity.ok(studentService.findById(id));
     }
-    
+
 //    @GetMapping(path = "/{id}")
 //    public ResponseEntity<Student> findById(@PathVariable int id, @AuthenticationPrincipal UserDetails userDetails) {
 //        log.info("user logged in {}", userDetails);

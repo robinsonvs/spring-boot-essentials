@@ -1,4 +1,4 @@
-# Study Spring Boot essentials
+# Spring Boot essentials
 
 Remembering and learning new concepts and techniques in Spring through the playlist: DevDojo Spring Essentials.
 
@@ -42,3 +42,4 @@ https://www.youtube.com/watch?v=4Zjm-rD9FNc&list=PL0Un1HNdB4jHTXBeJ8u3Kaz0NMxuMk
 - [32: Spring Security pt 01 - In Memory Authentication]
 - [33: Spring Security pt 02 - CSRF and @PreAuthorize]
 - [34: Spring Security pt 03 - @AuthenticationPrincipal Default login]
+- [35: Spring Security pt 04 - Auth and Authorization with Spring Data]
