@@ -8,10 +8,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -30,14 +36,36 @@ import static org.mockito.Mockito.doNothing;
 class StudentControllerIT {
 
     @Autowired
-    private TestRestTemplate testRestTemplate;
+    @Qualifier(value = "testRestTemplateRoleUser")
+    private TestRestTemplate testRestTemplateUser;
 
-    @LocalServerPort
-    private int port;
+    @Autowired
+    @Qualifier(value = "testRestTemplateRoleAdmin")
+    private TestRestTemplate testRestTemplateAdmin;
 
     @MockBean
     private StudentRepository studentRepositoryMock;
 
+    @Lazy
+    @TestConfiguration
+    static class Config {
+
+        @Bean(name = "testRestTemplateRoleUser")
+        public TestRestTemplate testRestTemplateRoleUserCreator(@Value("${local.server.port}") int port) {
+            RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder()
+                    .rootUri("http://localhost:" + port)
+                    .basicAuthentication("severo", "demospring");
+            return new TestRestTemplate(restTemplateBuilder);
+        }
+
+        @Bean(name = "testRestTemplateRoleAdmin")
+        public TestRestTemplate testRestTemplateRoleAdminCreator(@Value("${local.server.port}") int port) {
+            RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder()
+                    .rootUri("http://localhost:" + port)
+                    .basicAuthentication("robinson", "demospring");
+            return new TestRestTemplate(restTemplateBuilder);
+        }
+    }
 
     @BeforeEach
     public void setup() {
@@ -66,7 +94,7 @@ class StudentControllerIT {
         String expectedName = StudentCreator.createValidStudent().getName();
 
         //@formatter:off
-        Page<Student> studentPage = testRestTemplate.exchange("/students", HttpMethod.GET,
+        Page<Student> studentPage = testRestTemplateUser.exchange("/students", HttpMethod.GET,
                 null, new ParameterizedTypeReference<PageableResponse<Student>>() {}).getBody();
         //@formatter:on
 
@@ -81,7 +109,7 @@ class StudentControllerIT {
     public void findByIdReturnListOfStudentsInsidePageObjectWhenOK() {
         Integer expectedById = StudentCreator.createValidStudent().getId();
 
-        Student student = testRestTemplate.getForObject("/students/1", Student.class);
+        Student student = testRestTemplateUser.getForObject("/students/1", Student.class);
 
         assertThat(student).isNotNull();
         assertThat(student.getId()).isNotNull();
@@ -95,7 +123,7 @@ class StudentControllerIT {
         String expectedName = StudentCreator.createValidStudent().getName();
 
         //@formatter:off
-        List<Student> studentList = testRestTemplate.exchange("/students/find?name='ABC'",
+        List<Student> studentList = testRestTemplateUser.exchange("/students/find?name='ABC'",
                 HttpMethod.GET, null, new ParameterizedTypeReference<List<Student>>() {
                 }).getBody();
         //@formatter:on
@@ -112,7 +140,7 @@ class StudentControllerIT {
         Integer expectedById = StudentCreator.createValidStudent().getId();
 
         Student studentToBeSaved = StudentCreator.createStudentToBeSaved();
-        Student student = testRestTemplate.exchange("/students", HttpMethod.POST,
+        Student student = testRestTemplateUser.exchange("/students", HttpMethod.POST,
                 createJsonHttpEntity(studentToBeSaved), Student.class).getBody();
 
         assertThat(student).isNotNull();
@@ -123,11 +151,23 @@ class StudentControllerIT {
     @Test
     @DisplayName("delete removes the student when ok")
     public void deleteRemovesAnStudentWhenOK() {
-        ResponseEntity<Void> responseEntity = testRestTemplate.exchange("/students/1", HttpMethod.DELETE,
+        ResponseEntity<Void> responseEntity = testRestTemplateAdmin.exchange("/students/admin/1", HttpMethod.DELETE,
                 null, Void.class);
 
         assertThat(responseEntity).isNotNull();
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(responseEntity.getBody()).isNull();
+    }
+
+
+    @Test
+    @DisplayName("delete returns forbidden when user does not have the role admin")
+    public void deleteReturna403WhenUserIsNotAdmin() {
+        ResponseEntity<Void> responseEntity = testRestTemplateUser.exchange("/students/admin/1", HttpMethod.DELETE,
+                null, Void.class);
+
+        assertThat(responseEntity).isNotNull();
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
         assertThat(responseEntity.getBody()).isNull();
     }
 
@@ -137,7 +177,7 @@ class StudentControllerIT {
     public void updateSaveUpdatedStudentWhenOK() {
         Student validStudent = StudentCreator.createValidStudent();
 
-        ResponseEntity<Void> responseEntity = testRestTemplate.exchange("/students", HttpMethod.PUT,
+        ResponseEntity<Void> responseEntity = testRestTemplateUser.exchange("/students", HttpMethod.PUT,
                 createJsonHttpEntity(validStudent), Void.class);
 
         assertThat(responseEntity).isNotNull();
