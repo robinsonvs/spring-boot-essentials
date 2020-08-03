@@ -48,3 +48,5 @@ https://www.youtube.com/watch?v=4Zjm-rD9FNc&list=PL0Un1HNdB4jHTXBeJ8u3Kaz0NMxuMk
 - [38: Docimentation with SpringDoc OpenAPI]
 - [39: Spring Actuator]
 - [40: Spring Actuator with Prometheus]
+- [41: Spring Micrometer Prometheus and Grafana]
+
