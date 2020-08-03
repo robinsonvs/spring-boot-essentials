@@ -23,6 +23,18 @@ https://www.youtube.com/watch?v=4Zjm-rD9FNc&list=PL0Un1HNdB4jHTXBeJ8u3Kaz0NMxuMk
 8. Prometheus - http://localhost:9090/targets
 9. Grafana - http://localhost:3000
 
+---
+
+## 1. Swagger UI
+
+![spring-boot-essentials](https://github.com/robinsonvs/spring-boot-essentials/blob/master/images/swaggerui.png)
+
+## 2. Grafana
+
+![spring-boot-essentials](https://github.com/robinsonvs/spring-boot-essentials/blob/master/images/grafana.png)
+
+---
+
 ## <a name="index">Index</a>
 
 - [01: Behind the scenes]
