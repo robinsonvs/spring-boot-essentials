@@ -6,6 +6,23 @@ https://www.youtube.com/watch?v=4Zjm-rD9FNc&list=PL0Un1HNdB4jHTXBeJ8u3Kaz0NMxuMk
 
 ---
 
+## Requirements
+
+1. Java 11
+2. Docker or MySQL running natively
+
+## Running
+
+1. Clone this repo
+2. Git checkout
+3. In the terminal run `docker-compose up` if you don’t have a database running on 3306. If you do, configure the application.yml file to connect to the running database
+4. Start the application by running in the terminal `mvn spring-boot:run`
+5. Execute the script `init.sql` inside `resources` to generate some users
+6. The password for both users is `demospring`
+7. Application - http://localhost:8080/swagger-ui/index.html
+8. Prometheus - http://localhost:9090/targets
+9. Grafana - http://localhost:3000
+
 ## <a name="index">Index</a>
 
 - [01: Behind the scenes]
