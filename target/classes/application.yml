@@ -4,7 +4,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/student
+    url: jdbc:mysql://localhost:3306/student?createDatabaseIfNoExist=true
     username: root
     password: root
   jpa:
@@ -24,3 +24,18 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health, metrics
+  endpoint:
+    health:
+      show-details: when_authorized
+
+info:
+  app: Spring Boot 2 Essentials
+  website: https://github.com/robinsonvs
+  github: https://github.com/robinsonvs/spring-boot-essentials
+
