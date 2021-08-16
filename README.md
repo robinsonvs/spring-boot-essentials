@@ -26,11 +26,11 @@ https://www.youtube.com/watch?v=4Zjm-rD9FNc&list=PL0Un1HNdB4jHTXBeJ8u3Kaz0NMxuMk
 ---
 
 ## 1. Swagger UI
-<p align="center"><img src="https://github.com/robinsonvs/spring-boot-essentials/blob/master/images/swaggerui.png" /></p>
+![](swaggerui.png)
 <br/>
 
 ## 2. Grafana
-<p align="center"><img src="https://github.com/robinsonvs/spring-boot-essentials/blob/master/images/grafana.png" /></p>
+![](grafana.png)
 <br/>
 
 ---
